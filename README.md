@@ -27,4 +27,4 @@ The following steps explain the onboarding process for setting up your developme
    ```
    python music_server.py
    ```
-7. From your web browser of choice, connect to the server by navigation to the following URL: http://localhost:5000/
+7. From your web browser of choice, connect to the server by navigation to the following URL: http://localhost:9999/
