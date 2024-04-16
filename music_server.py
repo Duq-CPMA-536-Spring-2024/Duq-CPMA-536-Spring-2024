@@ -1,9 +1,13 @@
-from flask import Flask
+from flask import Flask, request, jsonify
+from thefuzz import process
 from waitress import serve
-
 import logging
+import os
+
 
 app = Flask(__name__)
+#@app.route('search album', methods=['GET'])
+#def search_album():
 
 @app.route('/')
 def server_home_page():
