@@ -26,7 +26,7 @@ def get_albums_with_tracks():
 	# Initialize an empty dictionary to store albums and their tracks
 	albums={}
 
-	# Absolute path to the Music directory with Albums - Will need to changed to relative (Music) for overall project!
+	# Relative path to the Music directory with Albums
 	albums_path = 'Music'
 
 	# Loop through the albums
