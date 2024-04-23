@@ -16,6 +16,7 @@ def list_albums(music_directory):
     :return: list of album names from subdirectories names or raise an error if DNE
 
     """
+    # check/handles invalid parameter entries for directory name and path
     if not os.path.exists(music_directory):
         raise ValueError(f"Directory -> {music_directory} DNE")
     if not os.path.isdir(music_directory):
