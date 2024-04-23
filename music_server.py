@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def server_home_page():
-	specific_album('Album 1')
 	return "This is the server's home page. Nothing interesting to see here."
 
 @app.errorhandler(Exception)
