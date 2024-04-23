@@ -34,7 +34,9 @@ def specific_album():
 	album_path = os.path.join(directory_name, album_name)
 
 	# Check if the directory specified by album_path exists
-	if os.path.isdir(album_path):
+	if album_name == "":
+		return "No such album exists."
+	elif os.path.isdir(album_path):
 		# Initialize an empty list of tracks
 		tracks = []
 		# List all tracks in the current album directory
