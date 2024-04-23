@@ -16,7 +16,7 @@ def page_not_found(e):
 	print(e)
 	return '404 Not Found', 404
 
-@app.route('/albumsandtracks')
+@app.route('/allalbums')
 def get_albums_with_tracks():
 	"""
 	Retrieve a complete list of albums and the contents
@@ -27,13 +27,17 @@ def get_albums_with_tracks():
 	albums={}
 
 	# Relative path to the Music directory with Albums
-	albums_path = 'Music'
+	directory_name = 'Music'
+
+	# Check if the 'Music' directory exists
+	if not os.path.isdir(directory_name):
+		return "Music folder not found."
 
 	# Loop through the albums
-	for album in os.listdir(albums_path):
+	for album in os.listdir(directory_name):
 
 		# Construct the path to the current album
-		album_path = os.path.join(albums_path, album)
+		album_path = os.path.join(directory_name, album)
 
 		# Check if the directory specified by album_path exists
 		if os.path.isdir(album_path):
