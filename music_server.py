@@ -1,45 +1,32 @@
 
-from flask import Flask, request, jsonify, send_from_directory
-
+from flask import Flask, send_from_directory, abort
 import os
-
 from waitress import serve
-
 import logging
 
 app = Flask(__name__)
+# Set the path to the music folder in the working directory
 app.config['MEDIA_FOLDER'] = os.path.join(os.getcwd(), 'Music')
 @app.route('/')
 def server_home_page():
 	return "This is the server's home page. Nothing interesting to see here."
-@app.route('/playback', methods=['GET'])
-def play_song():
-    album = request.args.get('album')
-    song = request.args.get('song')
-    if not album or not song:
-        return jsonify({"error": "Missing required parameters"}), 400
+@app.route('/play/<album>/<track>')
+#Use the following url to play the tracks within the albums.e %20 for space
+# :http://127.0.0.1:5000/play/Album%203/Track%204.mp3
+#For example: The above url will play track 4 from album 3.
+def play_song(album, track):
+    # Sanitize input to match directory and file naming conventions
+    valid_albums = ['Album 1', 'Album 2', 'Album 3']
+    album = ' '.join([word.capitalize() for word in album.split('_')])
 
-    # Construct the path to the song
-    song_path = os.path.join(app.config['MEDIA_FOLDER'], album, song)
+    if album not in valid_albums or not track.endswith('.mp3'):
+        return abort(404)  # Not found if invalid album or track
 
-    # Check if the file exists
-    if not os.path.isfile(song_path):
-        return jsonify({"error": "File not found"}), 404
-
-    # Send the file for download or streaming
-    return send_from_directory(directory=os.path.join(app.config['MEDIA_FOLDER'], album), filename=song, as_attachment=False)
-
-    # Check if the file exists
-    if not os.path.isfile(os.path.join(track_path, track)):
-        return jsonify({"error": "File not found"}), 404
-
-    # Serve the Track file to be played in the browser
-    return send_from_directory(directory=track_path, filename=track , as_attachment=False)
-@app.errorhandler(Exception)
-def page_not_found(e):
-	print(e)
-	return '404 Not Found', 404
-
+    try:
+        # Use send_from_directory to serve the MP3 file
+        return send_from_directory(f'Music/{album}', track)
+    except FileNotFoundError:
+        return abort(404)  # Not found if file doesn't exist
 @app.errorhandler(Exception)
 def page_not_found(e):
 	print(e)
