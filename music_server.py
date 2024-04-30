@@ -17,8 +17,6 @@ SEARCH_FOLDER_PATH = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-
 # http://localhost:9999/search_album?album_name=Album%201
 # http://localhost:9999/search_album?album_name=YourSearchQuery
 
-
-
 @app.route('/search_album', methods=['GET'])
 def search_album():
 	"""
