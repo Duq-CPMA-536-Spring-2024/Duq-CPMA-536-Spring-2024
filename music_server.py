@@ -31,7 +31,8 @@ def get_albums_with_tracks():
     directory_name = 'Music'
 
     album_list = os.listdir(directory_name)
-    album_list.remove('.DS_Store')
+    if '.DS_Store' in album_list:
+        album_list.remove('.DS_Store')
 
     # Loop through the albums
     for album in album_list:
