@@ -18,30 +18,6 @@ SEARCH_FOLDER_PATH = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-
 # http://localhost:9999/search_album?album_name=YourSearchQuery
 
 
-"""
-album_path = fuzzy_search_albums(search, SEARCH_FOLDER_PATH)
-# Check if the album path exists and is a directory
-if os.path.isdir(album_path):
-	# List all files in the directory
-	songs = os.listdir(album_path)
-else:
-	songs = []
-
-# Return both the match and the list of songs in the album directory
-return jsonify({
-	'album_path': album_path,
-	'songs': songs
-})
-
-# for album in albums_and_songs:
-# 	if album[0].lower() == search:  # Check if the first element matches the requested album
-# 		result['album'] = album[0]
-# 		result['songs'] = album[1:]  # All elements after the first are songs
-# 		break
-
-"""
-
-
 
 @app.route('/search_album', methods=['GET'])
 def search_album():
