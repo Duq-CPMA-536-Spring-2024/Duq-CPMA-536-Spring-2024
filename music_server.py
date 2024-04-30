@@ -28,15 +28,19 @@ def get_albums_with_tracks():
     # Create an empty dictionary for all albums
     all_albums = {}
 
+    # Relative path to the music directory with albums
     directory_name = 'Music'
 
+    # Remove the .DS_Store folder if it exists
     album_list = os.listdir(directory_name)
     if '.DS_Store' in album_list:
         album_list.remove('.DS_Store')
 
     # Loop through the albums
     for album in album_list:
+        # Get the list of tracks
         specific_album = get_album(album)
+        # Add tracks to the dictionary with the albums
         all_albums[album] = specific_album
 
     # Return the list of the albums and album contents on the server
@@ -51,6 +55,7 @@ def specific_album():
     album_name = request.args.get('album_name', default='*', type=str)
     # URL: http://localhost:9999/specific_album?album_name=Album+1
 
+    # Return the list of tracks for the album
     return get_album(album_name)
 
 def get_album(name_of_album):
@@ -75,6 +80,7 @@ def get_album(name_of_album):
         # List all tracks in the current album directory
         for track in os.listdir(album_path):
             if os.path.isfile(os.path.join(album_path, track)):
+                # Add the track to the list
                 tracks.append(track)
 
     # Return the list of tracks on the specified album
