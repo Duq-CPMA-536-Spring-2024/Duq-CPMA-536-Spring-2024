@@ -1,14 +1,9 @@
-
-from flask import Flask, send_file
-
-from flask import Flask, request
-
+from flask import Flask, send_file, request
 from waitress import serve
 import os
 import random
 import logging
 import json
-import os
 
 app = Flask(__name__)
 
@@ -32,12 +27,6 @@ def playRandomSong():
 
     # Return the selected song for playback in the browser
     return send_file(random_song, mimetype='audio/mpeg')
-
-@app.route('/')
-def server_home_page():
-	return "This is the server's home page. Nothing interesting to see here."
-
-
 
 @app.errorhandler(Exception)
 def page_not_found(e):
