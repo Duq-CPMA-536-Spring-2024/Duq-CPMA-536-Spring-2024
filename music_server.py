@@ -7,17 +7,32 @@ import json
 
 app = Flask(__name__)
 
-
+@app.route('/')
+def server_home_page():
+    return "This is the server's home page. Nothing interesting to see here."
 def selectRandomSong(rootFolder):
-    # albumFolder has the list of sub folders
-    albumFolders = [f.path for f in os.scandir(rootFolder) if f.is_dir()]
-    # We are selecting the folder here
-    randomAlbumFolder = random.choice(albumFolders)
-    # Listing the mp3 files
-    mp3Files = [f.path for f in os.scandir(randomAlbumFolder) if f.is_file() and f.name.endswith('.mp3')]
-    # We are selecting mp3 file
-    random_mp3_file = random.choice(mp3Files)
-    return random_mp3_file
+	# albumFolders has the list of sub folders
+	albumFolders = [f.path for f in os.scandir(rootFolder) if f.is_dir()]
+
+	# Checking if albumFolders is empty
+	if not albumFolders:
+		logging.error("No albums found in the Music directory")
+		return None
+
+	# Selecting a random album folder
+	randomAlbumFolder = random.choice(albumFolders)
+
+	# Listing the mp3 files in the selected album folder
+	mp3Files = [f.path for f in os.scandir(randomAlbumFolder) if f.is_file() and f.name.endswith('.mp3')]
+
+	# Checking if mp3Files is empty
+	if not mp3Files:
+		logging.error("No MP3 files found in the selected album folder")
+		return None
+
+	# Selecting a random mp3 file from the selected album folder
+	random_mp3_file = random.choice(mp3Files)
+	return random_mp3_file
 
 
 @app.route('/playRandomSong')
