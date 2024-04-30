@@ -56,9 +56,6 @@ def specific_album():
 def get_album(name_of_album):
     # This will allow for reuse of code between task1 and task2 as appropriate
 
-    # Initialize an empty dictionary to store the album and its tracks
-    specific_album = {}
-
     # Relative path to the music directory with albums
     directory_name = 'Music'
 
@@ -79,11 +76,9 @@ def get_album(name_of_album):
         for track in os.listdir(album_path):
             if os.path.isfile(os.path.join(album_path, track)):
                 tracks.append(track)
-        # Add album and its tracks to album dictionary
-        specific_album[name_of_album] = tracks
 
     # Return the list of tracks on the specified album
-    return json.dumps(specific_album)
+    return tracks
 
 
 if __name__ == '__main__':
