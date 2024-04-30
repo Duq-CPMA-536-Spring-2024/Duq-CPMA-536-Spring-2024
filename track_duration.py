@@ -27,7 +27,6 @@ def get_track_length(song_path):
     #     # Handle errors during processing
          return jsonify({'error': str(err)})
 
-
 song_path = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music\Album 2\Track 2.mp3"
 # source https://dev.to/konyu/how-to-get-mp3-file-s-durations-with-python-42p
 def mutagen_length(path):
