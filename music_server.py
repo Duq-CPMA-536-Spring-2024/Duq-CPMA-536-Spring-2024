@@ -1,23 +1,33 @@
 from flask import Flask, request
 from waitress import serve
 
+from flask import Flask, send_from_directory, abort
+from waitress import serve
 import logging
 import json
 import os
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def server_home_page():
     return "This is the server's home page. Nothing interesting to see here."
 
+@app.route('/play/<album>/<track>')
+#Use the following url to play the tracks within the albums.e %20 for space
+# :http://127.0.0.1:5000/play/Album%203/Track%204.mp3
+#For example: The above url will play track 4 from album 3.
+def play_song(album, track):
+    try:
+        # Use send_from_directory to serve the MP3 file
+        return send_from_directory(f'Music/{album}', track)
+    except FileNotFoundError:
+        return abort(404)  # Not found if file doesn't exist
 
 @app.errorhandler(Exception)
 def page_not_found(e):
     print(e)
     return '404 Not Found', 404
-
 
 @app.route('/allalbums')
 def get_albums_with_tracks():
@@ -45,7 +55,6 @@ def get_albums_with_tracks():
 
     # Return the list of the albums and album contents on the server
     return json.dumps(all_albums)
-
 
 @app.route('/specific_album')
 def specific_album():
@@ -85,7 +94,6 @@ def get_album(name_of_album):
 
     # Return the list of tracks on the specified album
     return tracks
-
 
 if __name__ == '__main__':
     logging.getLogger('waitress').setLevel(logging.DEBUG)
