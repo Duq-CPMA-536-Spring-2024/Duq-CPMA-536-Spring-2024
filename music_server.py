@@ -7,9 +7,6 @@ import os
 
 app = Flask(__name__)
 
-@app.route('/')
-def server_home_page():
-	return "This is the server's home page. Nothing interesting to see here."
 
 @app.errorhandler(Exception)
 def page_not_found(e):
