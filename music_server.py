@@ -35,7 +35,7 @@ def get_albums_with_tracks():
 
     # Loop through the albums
     for album in album_list:
-        specific_album = refactor(album)
+        specific_album = get_album(album)
         all_albums[album] = specific_album
 
     # Return the list of the albums and album contents on the server
@@ -50,9 +50,9 @@ def specific_album():
     album_name = request.args.get('album_name', default='*', type=str)
     # URL: http://localhost:9999/specific_album?album_name=Album+1
 
-    return refactor(album_name)
+    return get_album(album_name)
 
-def refactor(name_of_album):
+def get_album(name_of_album):
     # This will allow for reuse of code between task1 and task2 as appropriate
 
     # Initialize an empty dictionary to store the album and its tracks
