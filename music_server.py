@@ -1,13 +1,60 @@
-from flask import Flask, request
-from waitress import serve
+from song_duration import *
+from flask import Flask, jsonify, request
+import album_search
+import os
 
 from flask import Flask, send_from_directory, abort
 from waitress import serve
+
 import logging
 import json
-import os
+
 
 app = Flask(__name__)
+
+SEARCH_FOLDER_PATH = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music"
+#SEARCH_FOLDER_PATH = r"C:\insert\path\to\your\music\directory\here"
+
+# URL's for accessing server
+# http://localhost:9999/search_album?album_name=Album+1
+# http://localhost:9999/search_album?album_name=Album%201
+# http://localhost:9999/search_album?album_name=YourSearchQuery
+
+@app.route('/search_album', methods=['GET'])
+def search_album():
+	"""
+	Builds a query with request object
+	The object contains parameters such as data, query parameters, files, and URL
+	The request object is then passed to the fuzzy_search_albums function from the
+	album_search file in addition to the specified path of the directory
+
+	returns: array from the search 'match' var, is wrapped/encapsulated as a JSON object with jsonify()
+	"""
+	# search path var should be defined outside of endpoint configuration
+	#SEARCH_FOLDER_PATH = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music"
+	search = request.args.get('album_search', '').lower()
+	# Assuming fuzzy_search_albums is defined elsewhere and properly imported
+	match = album_search.fuzzy_search_albums(search, SEARCH_FOLDER_PATH)
+	return jsonify(match)
+
+
+@app.route('/search_song', methods=['GET'])
+def search_song():
+	"""
+	Builds a query with request object
+	The object contains parameters such as data, query parameters, files, and URL
+	The request object is then passed to the fuzzy_search_albums function from the
+	album_search file in addition to the specified path of the directory
+
+	returns: array from the search 'match' var, is wrapped/encapsulated as a JSON object with jsonify()
+	"""
+	# search path var should be defined outside of endpoint configuration
+	#SEARCH_FOLDER_PATH = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music"
+	search = request.args.get('album_song', '').lower()
+	# Assuming fuzzy_search_albums is defined elsewhere and properly imported
+	match_song = fuzzy_search_songs(search, SEARCH_FOLDER_PATH)
+	return jsonify(match_song)
+
 
 @app.route('/')
 def server_home_page():
