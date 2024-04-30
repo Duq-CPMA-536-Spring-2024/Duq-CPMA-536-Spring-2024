@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from waitress import serve
 import logging
 import json
-from track_duration import *
 
+from track_duration import *
 from album_search import *
 
 app = Flask(__name__)
@@ -53,13 +53,12 @@ def specific_album():
 	# Return the list of tracks on the specified album
 	return json.dumps(specific_album)
 
-
-SEARCH_FOLDER_PATH = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music"
-#SEARCH_FOLDER_PATH = r"Music"
+SEARCH_FOLDER_PATH = "Music"
 
 #http://localhost:9999/search_album?album_name=YourSearchQuery
 #http://localhost:9999/search_album?album_name=Album%201
 
+#SEARCH_FOLDER_PATH = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music"
 @app.route('/search_album', methods=['GET'])
 def search_album():
     #"""
@@ -70,7 +69,6 @@ def search_album():
     # Assuming fuzzy_search_albums is defined elsewhere and properly imported
     match = fuzzy_search_albums(search, SEARCH_FOLDER_PATH)
     return jsonify(match)
-
 
 @app.route('/get_track_length', methods=['GET'])
 def get_song_duration():
