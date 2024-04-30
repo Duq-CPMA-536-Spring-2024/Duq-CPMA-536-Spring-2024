@@ -10,8 +10,12 @@ def list_albums(music_dir):
     :returns the list of albums
     """
 
-    # list comprehension of subdirectories of albums
-    return [name for name in os.listdir(music_dir)
+    if not os.path.exists(music_dir):
+        return None                                                         # Return None if the path does not exist
+    if not os.path.isdir(music_dir):
+        return None                                                         # Return None if the path is not a directory
+
+    return [name for name in os.listdir(music_dir)                          # List comprehension of subdirectories of albums
             if os.path.isdir(os.path.join(music_dir, name))
             ]
 
