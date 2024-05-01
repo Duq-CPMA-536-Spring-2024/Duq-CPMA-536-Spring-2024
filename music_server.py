@@ -119,14 +119,12 @@ def get_song_duration():
     #Expects 'song_path' as a query parameter
     #Uses librosa library to calculate the duration of the song
     #"""
-
 	song_duration_search = request.args.get('song_path','')
 	#song_path = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music\Album 2\Track 2.mp3"
 	length = mutagen_length(song_duration_search)
 	ans_seconds = f"Track length in seconds : {length}"
 	#ans_minutes = f"Track length in minutes : {length/60}"
 	return ans_seconds
-
 # http://localhost:9999/get_track_length?song_path=C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music\Album 2\Track 2.mp3
 
 
