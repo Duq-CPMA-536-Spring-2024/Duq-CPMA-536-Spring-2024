@@ -111,7 +111,6 @@ def search_album():
     match = fuzzy_search_albums(search, SEARCH_FOLDER_PATH)
     return jsonify(match)
 
-
 if __name__ == '__main__':
     logging.getLogger('waitress').setLevel(logging.DEBUG)
     serve(app, host='0.0.0.0', port=9999)
