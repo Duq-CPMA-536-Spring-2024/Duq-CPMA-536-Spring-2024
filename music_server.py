@@ -1,10 +1,44 @@
-from flask import Flask, send_from_directory, abort, request
+from flask import Flask, send_from_directory, abort, send_file, request
 from waitress import serve
+import os
+import random
 import logging
 import json
-import os
 
 app = Flask(__name__)
+
+def selectRandomSong(rootFolder):
+	# albumFolders has the list of sub folders
+	albumFolders = [f.path for f in os.scandir(rootFolder) if f.is_dir()]
+
+	# Checking if albumFolders is empty
+	if not albumFolders:
+		logging.error("No albums found in the Music directory")
+		return None
+
+	# Selecting a random album folder
+	randomAlbumFolder = random.choice(albumFolders)
+
+	# Listing the mp3 files in the selected album folder
+	mp3Files = [f.path for f in os.scandir(randomAlbumFolder) if f.is_file() and f.name.endswith('.mp3')]
+
+	# Checking if mp3Files is empty
+	if not mp3Files:
+		logging.error("No MP3 files found in the selected album folder")
+		return None
+
+	# Selecting a random mp3 file from the selected album folder
+	random_mp3_file = random.choice(mp3Files)
+	return random_mp3_file
+
+
+@app.route('/playRandomSong')
+def playRandomSong():
+    # Select a random song
+    random_song = selectRandomSong('Music')
+
+    # Return the selected song for playback in the browser
+    return send_file(random_song, mimetype='audio/mpeg')
 
 @app.route('/play/<album>/<track>')
 #Use the following url to play the tracks within the albums.e %20 for space
@@ -22,6 +56,7 @@ def play_song(album, track):
 def page_not_found(e):
     print(e)
     return '404 Not Found', 404
+
 
 @app.route('/allalbums')
 def get_albums_with_tracks():
@@ -92,3 +127,6 @@ def get_album(name_of_album):
 if __name__ == '__main__':
     logging.getLogger('waitress').setLevel(logging.DEBUG)
     serve(app, host='0.0.0.0', port=9999)
+
+
+
