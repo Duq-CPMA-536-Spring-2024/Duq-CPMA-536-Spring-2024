@@ -1,12 +1,11 @@
-import os
-import random
 from flask import Flask, send_from_directory, abort, send_file, request
 from waitress import serve
+import os
+import random
 import logging
 import json
 
 app = Flask(__name__)
-
 
 def selectRandomSong(rootFolder):
 	# albumFolders has the list of sub folders
@@ -127,8 +126,7 @@ def get_album(name_of_album):
 
 if __name__ == '__main__':
     logging.getLogger('waitress').setLevel(logging.DEBUG)
-
     serve(app, host='0.0.0.0', port=9999)
 
-    serve(app, host='0.0.0.0', port=9999)
+
 
