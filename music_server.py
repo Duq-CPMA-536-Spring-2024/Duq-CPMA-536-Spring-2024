@@ -119,6 +119,24 @@ def get_album(name_of_album):
     # Return the list of tracks on the specified album
     return tracks
 
+@app.route('/get_track_length', methods=['GET'])
+def get_song_duration():
+    #"""
+    #Endpoint to retrieve the length of an audio track
+    #Retrieves the length of an audio track specified by song_path param
+    #Expects 'song_path' as a query parameter
+    #Uses librosa library to calculate the duration of the song
+    #"""
+	song_duration_search = request.args.get('song_path','')
+	#song_path = r"C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music\Album 2\Track 2.mp3"
+	length = mutagen_length(song_duration_search)
+	ans_seconds = f"Track length in seconds : {length}"
+	#ans_minutes = f"Track length in minutes : {length/60}"
+	return ans_seconds
+    # use this to test
+    # http://localhost:9999/get_track_length?song_path=C:\Users\davis_g7\OneDrive\Documents\Duq-CPMA-536-Spring-2024\Music\Album 2\Track 2.mp3
+
+
 if __name__ == '__main__':
     logging.getLogger('waitress').setLevel(logging.DEBUG)
     serve(app, host='0.0.0.0', port=9999)
